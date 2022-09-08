@@ -367,3 +367,8 @@ FodyWeavers.xsd
 RazorPagesPizza/.vscode/launch.json
 .gitignore
 RazorPagesPizza/.vscode/tasks.json
+RazorPagesPizza/Migrations/20220908221059_CreateIdentitySchema.cs
+.gitignore
+RazorPagesPizza/Migrations/20220908221059_CreateIdentitySchema.Designer.cs
+RazorPagesPizza/Migrations/20220908220303_CreateIdentitySchema.cs
+RazorPagesPizza/Migrations/20220908220303_CreateIdentitySchema.cs

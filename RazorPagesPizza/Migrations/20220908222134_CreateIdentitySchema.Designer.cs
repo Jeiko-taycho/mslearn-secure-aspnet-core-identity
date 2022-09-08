@@ -12,7 +12,7 @@ using RazorPagesPizza.Areas.Identity.Data;
 namespace RazorPagesPizza.Migrations
 {
     [DbContext(typeof(RazorPagesPizzaAuth))]
-    [Migration("20220908220303_CreateIdentitySchema")]
+    [Migration("20220908222134_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
