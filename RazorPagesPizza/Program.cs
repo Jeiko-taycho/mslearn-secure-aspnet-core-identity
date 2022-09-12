@@ -12,9 +12,19 @@ var connectionString = builder.Configuration.GetConnectionString("RazorPagesPizz
       .AddEntityFrameworkStores<RazorPagesPizzaAuth>();
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+    options.Conventions.AuthorizePage("/AdminsOnly", "Admin"));
+    
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+/*directiva de autorización llamada Admin*/
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("Admin", policy =>
+        policy.RequireAuthenticatedUser()
+            .RequireClaim("IsAdmin", bool.TrueString)));
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
