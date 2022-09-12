@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RazorPagesPizza.Areas.Identity.Data;
+using RazorPagesPizza.Services;
 
 namespace RazorPagesPizza.Areas.Identity.Pages.Account.Manage
 {
@@ -22,7 +23,7 @@ namespace RazorPagesPizza.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<RazorPagesPizzaUser> _userManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
-
+        public string QrCodeAsBase64 { get; set; }  
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public EnableAuthenticatorModel(
@@ -85,7 +86,8 @@ namespace RazorPagesPizza.Areas.Identity.Pages.Account.Manage
             public string Code { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync([FromServices] QRCodeService qrCodeService)
+
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -94,7 +96,7 @@ namespace RazorPagesPizza.Areas.Identity.Pages.Account.Manage
             }
 
             await LoadSharedKeyAndQrCodeUriAsync(user);
-
+            QrCodeAsBase64 = qrCodeService.GetQRCodeAsBase64(AuthenticatorUri);
             return Page();
         }
 
@@ -181,7 +183,7 @@ namespace RazorPagesPizza.Areas.Identity.Pages.Account.Manage
             return string.Format(
                 CultureInfo.InvariantCulture,
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("Microsoft.AspNetCore.Identity.UI"),
+                  _urlEncoder.Encode("RazorPagesPizza"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
